@@ -4,9 +4,10 @@ MAINTAINER Jan Grewe <jan@faked.org>
 ENV VERSION_TOOLS "6609375"
 ENV VERSION_GRADLE "6.4.1"
 ENV ANDROID_SDK_ROOT "/sdk"
+ENV GRADLE_PATH "/gradle"
 # Keep alias for compatibility
 ENV ANDROID_HOME "${ANDROID_SDK_ROOT}"
-ENV PATH "$PATH:${ANDROID_SDK_ROOT}/tools"
+ENV PATH "$PATH:${ANDROID_SDK_ROOT}/tools:${GRADLE_PATH}/gradle-${VERSION_GRADLE}/bin"
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -qq update \
@@ -36,7 +37,7 @@ RUN curl -s https://dl.google.com/android/repository/commandlinetools-linux-${VE
  && rm -v /tools.zip
 
 RUN curl -s https://downloads.gradle-dn.com/distributions/gradle-${VERSION_GRADLE}-bin.zip > /gradle.zip \
- && unzip /gradle.zip -d /root/gradle\
+ && unzip /gradle.zip -d /${GRADLE_PATH} \
  && rm -v /gradle.zip
  
 RUN mkdir -p $ANDROID_SDK_ROOT/licenses/ \
